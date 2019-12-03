@@ -27,7 +27,7 @@ int endsWithSuffix(const char *string, const char *sufixo);									// Function 
 // Fim das functions em int
 
 // Functions char
-char *generateDateAndTime( char *log);
+char *generateDateAndTime(char string[35]);													// Function para gerar uma data e hora em uma string com 35 caracteres, util para criacao de logs.
 char *replaceWord(const char *string, const char *palavraAntiga, const char *novaPalavra);	// Function para trocar palavras de uma string por outras - pego de https://www.geeksforgeeks.org/
 // Fim functions char
 
@@ -158,18 +158,15 @@ char *replaceWord(const char *string, const char *palavraAntiga, const char *nov
 }
 
 // Retorna uma data e hora do sistema.
-char *generateDateAndTime( char *log){
-	int MAX = 1000;											// Taamnho para a string.
-	char string[MAX];										// string que recebe o "assert" dos valores gerados na variavel tempo.
-															// A variavel tm é um ponteiro para o tempo e data pegado no sistema
-	time_t tempo = time(NULL);                      		// Setando a variavel tempo.
-    struct tm *tm = localtime(&tempo);              		// Pegando o tempo local.
-    assert(strftime(string, sizeof(string), "%c", tm));   	// Concatenando o tempo com a data atual string anterior.
-    strcat(log,string);										// Concatenando as strings.
-    
-	free(string);											// Liberando memória, se livrando da string auxiliar "string".
-    
-	return log;												// Retorno da string com o tempo e data atual ( aka dia de hoje).
+char *generateDateAndTime(char string[35]){
+	char aux_string[35];											// string que recebe o "assert" dos valores gerados na variavel tempo.
+																	// A variavel tm é um ponteiro para o tempo e data pegado no sistema
+	time_t tempo = time(NULL);                      				// Setando a variavel tempo.
+    struct tm *tm = localtime(&tempo);              				// Pegando o tempo local.
+    assert(strftime(aux_string, sizeof(aux_string), "%c", tm));   	// Concatenando o tempo com a data atual string anterior, se der erro, o erro eh printado com o assert.
+    strcpy(string,aux_string);
+	
+	return string;													// Retorno da string com o tempo e data atual ( aka dia de hoje).
 }
 
 #endif
